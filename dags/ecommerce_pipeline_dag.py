@@ -9,9 +9,6 @@ from airflow.providers.google.cloud.transfers.gcs_to_bigquery import GCSToBigQue
 
 from data_generator.ecommerce_generator import EcommerceDataGenerator
 
-# Define the Dataset that will trigger the dbt DAG
-ecommerce_raw_dataset = Dataset('bigquery://ecommerce_raw')
-
 # Default arguments for the DAG
 default_args = {
     'owner': 'airflow',
@@ -26,6 +23,10 @@ default_args = {
 GCP_PROJECT_ID = os.environ.get('GCP_PROJECT_ID', 'your-gcp-project-id')
 GCS_BUCKET = os.environ.get('GCP_GCS_BUCKET', 'your-gcs-bucket-name')
 BQ_DATASET = 'ecommerce_raw'
+
+# Define the Dataset using a safe, universal URI format to avoid Google validation bugs
+# This will trigger the downstream dbt DAG once this pipeline completes successfully
+ecommerce_raw_dataset = Dataset(f"gcp://bigquery/{GCP_PROJECT_ID}/{BQ_DATASET}")
 
 # Local Data Paths
 DATA_DIR = '/opt/airflow/include/data'
@@ -85,8 +86,8 @@ with DAG(
 
     task_upload_orders_gcs = LocalFilesystemToGCSOperator(
         task_id='upload_orders_gcs',
-        src=f'{DATA_DIR}/orders_{{{{ ds }}}}.csv',
-        dst='raw/orders_{{{{ ds }}}}.csv',
+        src=f'{DATA_DIR}/orders_{{ ds }}.csv',
+        dst='raw/orders_{{ ds }}.csv',
         bucket=GCS_BUCKET,
     )
 
@@ -116,8 +117,8 @@ with DAG(
     task_load_orders_bq = GCSToBigQueryOperator(
         task_id='load_orders_bq',
         bucket=GCS_BUCKET,
-        source_objects=['raw/orders_{{{{ ds }}}}.csv'],
-        destination_project_dataset_table=f'{GCP_PROJECT_ID}.{BQ_DATASET}.orders_{{{{ ds_nodash }}}}',
+        source_objects=['raw/orders_{{ ds }}.csv'],
+        destination_project_dataset_table=f'{GCP_PROJECT_ID}.{BQ_DATASET}.orders_{{ ds_nodash }}',
         source_format='CSV',
         write_disposition='WRITE_TRUNCATE',
         skip_leading_rows=1,

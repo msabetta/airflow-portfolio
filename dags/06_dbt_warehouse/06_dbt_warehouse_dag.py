@@ -1,11 +1,17 @@
 from datetime import datetime
 import os
 from airflow import DAG, Dataset
+from airflow.decorators import dag, task
 from cosmos import DbtTaskGroup, ProjectConfig, ProfileConfig, ExecutionConfig
 from cosmos.constants import ExecutionMode
 
+
+# GCP Configuration
+GCP_PROJECT_ID = os.environ.get('GCP_PROJECT_ID', 'your-gcp-project-id')
+BQ_DATASET = 'ecommerce_raw'
+
 # Define the Dataset that triggers this DAG
-ecommerce_raw_dataset = Dataset('bigquery://ecommerce_raw')
+ecommerce_raw_dataset = Dataset(f"bigquery://{GCP_PROJECT_ID}/{BQ_DATASET}/all_tables")
 
 # Cosmos Configuration
 DBT_PROJECT_PATH = "/opt/airflow/dbt_project"
