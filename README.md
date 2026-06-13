@@ -158,11 +158,6 @@ airflow dags logs <dag_id> <execution_date>
  - MLOps MLflow DAG: ML training + model registry
  - Event Kafka DAG: Streaming simulation + conversion funnel
  - Meta Monitoring DAG: Self-monitoring + SLA alerting
-
- ## Docker Compose Setup
- This project includes a Docker Compose setup for local development:
- ```bash
- docker compose up -d
  ```
 
  ## Cloud Setup
@@ -184,23 +179,5 @@ pip install pytest pytest-mock
 
 # Run tests
 pytest
-```
-
-## Troubleshooting
-```bash
-# List all DAGs
-airflow dags list
-
-# Trigger a DAG
-airflow dags trigger <dag_id>
-
-# List tasks in a DAG
-airflow tasks list <dag_id>
-
-# Run a task
-airflow tasks test <dag_id> <task_id> <execution_date>
-
-# View DAG logs
-airflow dags logs <dag_id> <execution_date>
 ```
 

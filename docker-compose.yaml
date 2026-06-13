@@ -155,3 +155,4 @@ services:
 
 volumes:
   postgres-db-volume:
+    external: true
