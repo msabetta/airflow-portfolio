@@ -147,7 +147,7 @@ airflow dags logs <dag_id> <execution_date>
  - Platform health monitoring
  
  ## Portfolio Projects
- * I have added 10 DAGs to showcase my skills in Data Engineering, MLOps, and Analytics:
+ I have added 10 DAGs to showcase my skills in Data Engineering, MLOps, and Analytics:
  - Weather Alert DAG: API extraction + conditional alerting
  - Crypto Tracker DAG: Time-series data + historical appending
  - Wiki Trends DAG: Wikimedia API + trend analysis
