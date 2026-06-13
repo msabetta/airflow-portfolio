@@ -22,3 +22,13 @@ models:
       +materialized: view
     marts:
       +materialized: table
+
+seeds:
+  ecommerce:
+    +persist_docs: yes
+    +column_types:
+      customer_id: integer
+      product_id: integer
+      order_id: integer
+      order_date: date
+      amount: float

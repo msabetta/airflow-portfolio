@@ -9,3 +9,16 @@ ecommerce:
       threads: 4
       keyfile: /opt/airflow/config/gcp-service-account.json
       location: EU
+
+config:
+  schema: raw
+
+models:
+  ecommerce:
+    +materialized: table
+
+models.ecommerce.dev:
+  +materialized: table
+  +schema: raw
+  +tags: [ "ecommerce" ]
+  

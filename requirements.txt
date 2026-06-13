@@ -1,4 +1,4 @@
-apache-airflow-providers-google==10.18.0
+apache-airflow==2.9.3
 dbt-bigquery==1.8.1
 Faker==25.8.0
 pandas==2.2.2
