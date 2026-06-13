@@ -1,0 +1,62 @@
+version: 2
+
+sources:
+  - name: ecommerce_raw
+    schema: ecommerce_raw
+    tables:
+      - name: users
+      - name: products
+      # Wildcard table definition for BigQuery
+      - name: "orders_*"
+
+models:
+  - name: dim_users
+    description: "Dimension table for users."
+    columns:
+      - name: user_id
+        description: "Primary key for users."
+        tests:
+          - unique
+          - not_null
+      - name: email
+        description: "User email address."
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_products
+    description: "Dimension table for products."
+    columns:
+      - name: product_id
+        description: "Primary key for products."
+        tests:
+          - unique
+          - not_null
+
+  - name: fct_orders
+    description: "Fact table for daily orders."
+    columns:
+      - name: order_id
+        description: "Primary key for orders."
+        tests:
+          - unique
+          - not_null
+      - name: user_id
+        description: "Foreign key to dim_users."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_users')
+              field: user_id
+      - name: product_id
+        description: "Foreign key to dim_products."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_products')
+              field: product_id
+      - name: status
+        description: "Order status."
+        tests:
+          - accepted_values:
+              values: ['completed', 'pending', 'cancelled']

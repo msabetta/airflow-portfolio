@@ -1,0 +1,32 @@
+# Airflow
+logs/
+.airflow/dags
+__pycache__/
+*.pyc
+
+# Environment
+.env
+.env.test
+.env.example
+
+# GCP Credentials (NEVER commit this)
+config/gcp-service-account.json
+*.json
+
+# MLflow
+mlflow_data/
+
+# Generated data
+include/data/
+
+# Spark
+*.jar
+metastore_db/
+derby.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
